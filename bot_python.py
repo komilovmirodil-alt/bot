@@ -38,6 +38,8 @@ class Database:
                 )
                 """
             )
+            await db.execute("CREATE INDEX IF NOT EXISTS idx_episodes_code ON episodes(code)")
+            await db.execute("CREATE UNIQUE INDEX IF NOT EXISTS uq_episodes_code_ep ON episodes(code, ep_number)")
             await db.execute(
                 """
                 CREATE TABLE IF NOT EXISTS users (
@@ -80,6 +82,8 @@ class Database:
 
     async def add_episode(self, code: str, ep_number: int, file_id: str) -> None:
         async with aiosqlite.connect(self.db_path) as db:
+            # Keep only one row per (code, ep_number) so re-upload updates an episode.
+            await db.execute("DELETE FROM episodes WHERE code = ? AND ep_number = ?", (code, ep_number))
             await db.execute(
                 "INSERT INTO episodes (code, ep_number, file_id) VALUES (?, ?, ?)",
                 (code, ep_number, file_id),
@@ -205,7 +209,11 @@ class UserAndSubscriptionMiddleware(BaseMiddleware):
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 BOT_TOKEN = (os.getenv("BOT_TOKEN") or "").strip()
-ADMIN_ID = int((os.getenv("ADMIN_ID") or "0").strip() or "0")
+admin_id_raw = (os.getenv("ADMIN_ID") or "0").strip() or "0"
+try:
+    ADMIN_ID = int(admin_id_raw)
+except ValueError as err:
+    raise RuntimeError("ADMIN_ID raqam bo'lishi kerak.") from err
 CHECK_SUB = (os.getenv("CHECK_SUB") or "false").lower() == "true"
 DEFAULT_DB = os.path.join(BASE_DIR, "database.sqlite")
 DB_STORAGE = (os.getenv("DB_STORAGE") or DEFAULT_DB).strip()
