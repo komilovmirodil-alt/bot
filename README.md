@@ -35,24 +35,6 @@ DB_STORAGE=database.sqlite
 python bot_python.py
 ```
 
-## Railway Deploy
-Loyiha Python worker sifatida deploy bo'lishga tayyor:
-- `Procfile`
-- `railway.json`
-- `nixpacks.toml`
-
-Railway `Variables`:
-```env
-BOT_TOKEN=YOUR_BOT_TOKEN
-ADMIN_ID=YOUR_TELEGRAM_ID
-CHECK_SUB=true
-DB_STORAGE=database.sqlite
-```
-
-Deploydan keyin logda quyini tekshiring:
-- `Database connected and synced.`
-- `Bot is running (Python)...`
-
 ## PythonAnywhere Deploy
 1. Bash console oching va repodan kodni yuklang:
 ```bash
@@ -93,5 +75,5 @@ bash /home/YOUR_USERNAME/botlarim/start_pythonanywhere.sh
 ## Token Yangilash
 1. `@BotFather` -> `/revoke` (eski tokenni bekor qiling)
 2. `@BotFather` -> `/token` (yangi token oling)
-3. Railway `BOT_TOKEN`ni yangilang
-4. `Redeploy` qiling
+3. PythonAnywhere `.env` ichida `BOT_TOKEN`ni yangilang
+4. Always-on taskni qayta ishga tushiring
