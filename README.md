@@ -73,30 +73,11 @@ bash /home/YOUR_USERNAME/botlarim/start_pythonanywhere.sh
 - `Database connected and synced.`
 - `Bot is running (Python)...`
 
-## Render Worker Deploy
-1. Kodni GitHub'ga push qiling.
-2. Render'da `New +` -> `Blueprint` tanlang va repo ulang.
-3. `render.yaml` bo'yicha worker avtomatik yaratiladi.
-4. Render `Environment`da qiymatlarni kiriting:
-```env
-BOT_TOKEN=YOUR_BOT_TOKEN
-ADMIN_ID=YOUR_TELEGRAM_ID
-CHECK_SUB=true
-DB_STORAGE=/var/data/database.sqlite
-```
-5. Deploydan keyin logda tekshiring:
-- `Database connected and synced.`
-- `Bot is running (Python)...`
-
 ## Token Yangilash
 1. `@BotFather` -> `/revoke` (eski tokenni bekor qiling)
 2. `@BotFather` -> `/token` (yangi token oling)
 3. PythonAnywhere `.env` ichida `BOT_TOKEN`ni yangilang
 4. Always-on taskni qayta ishga tushiring
-
-Render ishlatayotgan bo'lsangiz:
-- Render `Environment` ichida `BOT_TOKEN`ni yangilang
-- `Manual Deploy` -> `Deploy latest commit`
 
 ## Serial Qo'shish Tartibi
 1. Avval serial posterini qo'ying:
