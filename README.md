@@ -49,6 +49,10 @@ Python variantni Railway'da ishlatish uchun loyiha ichida `Procfile` qo'shilgan:
 worker: python bot_python.py
 ```
 
+Railway Python startni majburan ishlatishi uchun qo'shimcha configlar ham bor:
+- `railway.json`
+- `nixpacks.toml`
+
 Qadamlar:
 1. Kodni GitHub'ga push qiling.
 2. Railway -> `New Project` -> `Deploy from GitHub`.
@@ -64,6 +68,12 @@ DB_STORAGE=database.sqlite
 Eslatma:
 - Railway'da SQLite ba'zi holatda ephemeral bo'lishi mumkin.
 - Uzoq muddat production uchun Postgres tavsiya qilinadi.
+
+## Tokenni Keyin Yangilash
+1. `@BotFather` -> `/revoke` (eski tokenni bekor qiling)
+2. `@BotFather` -> `/token` (yangi token oling)
+3. Railway `Variables` ichida `BOT_TOKEN` ni yangilang
+4. `Redeploy` qiling
 
 ## Admin buyruqlari
 - `/setposter <code> <title>`: rasmga reply qilib yuboriladi
