@@ -5,6 +5,7 @@ from typing import Optional
 import aiosqlite
 from aiogram import Bot, Dispatcher, F, Router
 from aiogram.dispatcher.middlewares.base import BaseMiddleware
+from aiogram.exceptions import TelegramNetworkError
 from aiogram.filters import Command, CommandObject
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -465,7 +466,20 @@ async def main() -> None:
     dp.include_router(router)
     print("Database connected and synced.")
     print("Bot is running (Python)...")
-    await dp.start_polling(bot)
+
+    retry_delay = 5
+    while True:
+        try:
+            await dp.start_polling(bot)
+            break
+        except TelegramNetworkError as err:
+            print(f"Network error: {err}. Reconnecting in {retry_delay}s...")
+            await asyncio.sleep(retry_delay)
+            retry_delay = min(retry_delay * 2, 60)
+        except Exception as err:
+            print(f"Unexpected error: {err}. Reconnecting in {retry_delay}s...")
+            await asyncio.sleep(retry_delay)
+            retry_delay = min(retry_delay * 2, 60)
 
 
 if __name__ == "__main__":
