@@ -1,0 +1,24 @@
+{
+  "name": "botlarim",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:pm2": "pm2 start ecosystem.config.js --env production",
+    "restart:pm2": "pm2 restart aninexus-bot",
+    "logs:pm2": "pm2 logs aninexus-bot",
+    "stop:pm2": "pm2 stop aninexus-bot",
+    "test": "echo \"No tests configured\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.1",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^6.0.1",
+    "telegraf": "^4.16.3"
+  }
+}
