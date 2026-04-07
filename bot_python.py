@@ -201,11 +201,12 @@ class UserAndSubscriptionMiddleware(BaseMiddleware):
         return
 
 
-load_dotenv()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 BOT_TOKEN = (os.getenv("BOT_TOKEN") or "").strip()
 ADMIN_ID = int((os.getenv("ADMIN_ID") or "0").strip() or "0")
 CHECK_SUB = (os.getenv("CHECK_SUB") or "false").lower() == "true"
-DEFAULT_DB = "/tmp/database.sqlite" if os.getenv("VERCEL") else "database.sqlite"
+DEFAULT_DB = "/tmp/database.sqlite" if os.getenv("VERCEL") else os.path.join(BASE_DIR, "database.sqlite")
 DB_STORAGE = (os.getenv("DB_STORAGE") or DEFAULT_DB).strip()
 
 if not BOT_TOKEN:

@@ -53,6 +53,43 @@ Deploydan keyin logda quyini tekshiring:
 - `Database connected and synced.`
 - `Bot is running (Python)...`
 
+## PythonAnywhere Deploy
+1. Bash console oching va repodan kodni yuklang:
+```bash
+cd ~
+git clone https://github.com/komilovmirodil-alt/bot.git botlarim
+cd botlarim
+```
+
+2. Virtualenv yarating va dependency o'rnating:
+```bash
+python3.10 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+3. `.env` yarating:
+```env
+BOT_TOKEN=YOUR_BOT_TOKEN
+ADMIN_ID=YOUR_TELEGRAM_ID
+CHECK_SUB=true
+DB_STORAGE=/home/YOUR_USERNAME/botlarim/database.sqlite
+```
+
+4. Start scriptga ruxsat bering:
+```bash
+chmod +x ~/botlarim/start_pythonanywhere.sh
+```
+
+5. PythonAnywhere -> `Tasks` -> `Always-on tasks` ga kiring va buyruq qo'shing:
+```bash
+bash /home/YOUR_USERNAME/botlarim/start_pythonanywhere.sh
+```
+
+6. `Logs`dan tekshiring:
+- `Database connected and synced.`
+- `Bot is running (Python)...`
+
 ## Token Yangilash
 1. `@BotFather` -> `/revoke` (eski tokenni bekor qiling)
 2. `@BotFather` -> `/token` (yangi token oling)
