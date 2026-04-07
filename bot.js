@@ -4,15 +4,22 @@ const { Media, Episode, User, Channel, sequelize } = require('./models');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const ADMIN_ID = (process.env.ADMIN_ID || '').toString();
+let dbReadyPromise = null;
 
 async function isAdmin(ctx) {
   return ctx.from && ctx.from.id.toString() === ADMIN_ID;
 }
 
 async function setupDatabase() {
-  await sequelize.authenticate();
-  await sequelize.sync();
-  console.log('Database connected and synced.');
+  if (!dbReadyPromise) {
+    dbReadyPromise = (async () => {
+      await sequelize.authenticate();
+      await sequelize.sync();
+      console.log('Database connected and synced.');
+    })();
+  }
+
+  return dbReadyPromise;
 }
 
 bot.use(async (ctx, next) => {

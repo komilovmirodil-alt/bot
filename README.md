@@ -27,6 +27,44 @@ CHECK_SUB=true
 npm start
 ```
 
+## Python Versiya (Yangi)
+Loyiha Python varianti ham qo'shildi: `bot_python.py`
+
+1. Virtual environment yarating (ixtiyoriy, tavsiya):
+```bash
+python -m venv .venv
+```
+2. Paketlarni o'rnating:
+```bash
+pip install -r requirements.txt
+```
+3. Botni ishga tushiring:
+```bash
+python bot_python.py
+```
+
+## Railway (Python) Deploy
+Python variantni Railway'da ishlatish uchun loyiha ichida `Procfile` qo'shilgan:
+```text
+worker: python bot_python.py
+```
+
+Qadamlar:
+1. Kodni GitHub'ga push qiling.
+2. Railway -> `New Project` -> `Deploy from GitHub`.
+3. `Variables` ga kiriting:
+```env
+BOT_TOKEN=YOUR_BOT_TOKEN
+ADMIN_ID=YOUR_TELEGRAM_ID
+CHECK_SUB=true
+DB_STORAGE=database.sqlite
+```
+4. Deploy tugagach `Logs`da `Bot is running (Python)...` ni tekshiring.
+
+Eslatma:
+- Railway'da SQLite ba'zi holatda ephemeral bo'lishi mumkin.
+- Uzoq muddat production uchun Postgres tavsiya qilinadi.
+
 ## Admin buyruqlari
 - `/setposter <code> <title>`: rasmga reply qilib yuboriladi
 - `/add <code> <ep_number>`: videoga reply qilib yuboriladi
@@ -120,3 +158,26 @@ DB_STORAGE=/var/data/database.sqlite
 Muhim:
 - SQLite saqlanib qolishi uchun `Persistent Disk` kerak. Shu sabab `render.yaml` ichida disk mount (`/var/data`) allaqachon berilgan.
 - Agar Free planda disk bo'lmasa, SQLite o'rniga Postgres ishlatish tavsiya qilinadi.
+
+## Vercel'ga Ulanish (Webhook Mode)
+Vercel serverless bo'lgani uchun `bot.launch()` (polling) emas, webhook ishlatiladi.
+
+1. Loyihani Vercel'ga import qiling.
+2. Environment Variables qo'shing:
+```env
+BOT_TOKEN=YOUR_BOT_TOKEN
+ADMIN_ID=YOUR_TELEGRAM_ID
+CHECK_SUB=true
+WEBHOOK_URL=https://your-project.vercel.app
+WEBHOOK_SECRET=optional_random_secret
+DB_STORAGE=/tmp/database.sqlite
+```
+3. Deploy bo'lgach browserda quyini bir marta oching:
+```text
+https://your-project.vercel.app/api/set-webhook
+```
+4. JSON javobda `ok: true` bo'lsa webhook o'rnatilgan.
+
+Muhim cheklov:
+- Vercel fayl tizimi doimiy emas, `SQLite` ma'lumotlari yo'qolishi mumkin.
+- Production uchun `Postgres` ishlatish tavsiya qilinadi.
