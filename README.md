@@ -5,6 +5,7 @@ Telegram kino/serial boti. Bu repository hozir faqat Python versiyani saqlaydi.
 ## Imkoniyatlar
 - Bitta video qo'shish: `/add <code> <ep_number>`
 - Serial smart mode: bitta kod ostida ko'p qism, inline tugmalar bilan
+- Serial-safe qo'shish: `/addserial <code> <ep_number>` (avval poster qo'yiladi)
 - Poster biriktirish: `/setposter <code> <title>`
 - Majburiy obuna: `/addchannel <channel_id> <link>` va `CHECK_SUB=true`
 - User tracking va statistika: `/stats`
@@ -77,3 +78,10 @@ bash /home/YOUR_USERNAME/botlarim/start_pythonanywhere.sh
 2. `@BotFather` -> `/token` (yangi token oling)
 3. PythonAnywhere `.env` ichida `BOT_TOKEN`ni yangilang
 4. Always-on taskni qayta ishga tushiring
+
+## Serial Qo'shish Tartibi
+1. Avval serial posterini qo'ying:
+`/setposter <code> <title>` (rasmga reply qilib)
+2. Har bir qismni videoga reply qilib qo'shing:
+`/addserial <code> <ep_number>`
+3. User kod yuborganda poster chiqadi va barcha qism tugmalari ko'rinadi (masalan 12 qism bo'lsa 12 tugma).

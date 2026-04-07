@@ -261,6 +261,7 @@ async def help_handler(message: Message) -> None:
                 "Admin buyruqlari:",
                 "/setposter <code> <title> (rasmga reply qilib)",
                 "/add <code> <ep> (videoga reply qilib)",
+                "/addserial <code> <ep> (videoga reply, poster avval qo'yilgan bo'lishi kerak)",
                 "/addchannel <channel_id> <link>",
                 "/delete <code>",
                 "/stats",
@@ -318,6 +319,40 @@ async def add_handler(message: Message, command: CommandObject) -> None:
     await db.upsert_media(code=code, title=reply.caption)
     await db.add_episode(code=code, ep_number=ep_number, file_id=reply.video.file_id)
     await message.answer(f"Video saqlandi. Kod: {code}, qism: {ep_number}")
+
+
+@router.message(Command("addserial"))
+async def addserial_handler(message: Message, command: CommandObject) -> None:
+    if not is_admin(message):
+        return
+
+    reply = message.reply_to_message
+    if not reply or not reply.video:
+        await message.answer("Avval videoga reply qilib yuboring.")
+        return
+
+    parts = (command.args or "").strip().split()
+    if not parts:
+        await message.answer("Foydalanish: /addserial <code> <ep_number>")
+        return
+
+    code = parts[0]
+    ep_number = 1
+    if len(parts) > 1:
+        try:
+            ep_number = int(parts[1])
+        except ValueError:
+            ep_number = 1
+
+    media = await db.get_media(code)
+    if not media or not media.get("photo_id"):
+        await message.answer(
+            "Bu kod uchun avval poster qoying. Rasmga reply qilib: /setposter <code> <title>"
+        )
+        return
+
+    await db.add_episode(code=code, ep_number=ep_number, file_id=reply.video.file_id)
+    await message.answer(f"Serial qismi saqlandi. Kod: {code}, qism: {ep_number}")
 
 
 @router.message(Command("addchannel"))
@@ -399,6 +434,15 @@ async def text_search_handler(message: Message) -> None:
 
     if not media and not episodes:
         await message.answer("Bunday kod topilmadi.")
+        return
+
+    if media and not episodes:
+        title = media.get("title")
+        body = f"*{title}*\n\nQismlar hali qoshilmagan." if title else "Qismlar hali qoshilmagan."
+        if media.get("photo_id"):
+            await message.answer_photo(media["photo_id"], caption=body, parse_mode="Markdown")
+        else:
+            await message.answer(body, parse_mode="Markdown")
         return
 
     if len(episodes) == 1 and not (media and media.get("photo_id")):
