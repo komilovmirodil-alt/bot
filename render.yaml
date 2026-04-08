@@ -3,7 +3,7 @@ services:
     name: aninexus-bot
     env: python
     plan: starter
-    buildCommand: python -m pip install --upgrade pip setuptools wheel && pip install --only-binary=:all: -r requirements.txt
+    buildCommand: python -m pip install --upgrade pip setuptools wheel && python -m pip install --only-binary=:all: -r requirements.txt
     startCommand: python bot_python.py
     autoDeploy: true
     envVars:
@@ -11,6 +11,12 @@ services:
         value: 3.11.9
       - key: PIP_ONLY_BINARY
         value: ":all:"
+      - key: PIP_NO_CACHE_DIR
+        value: "1"
+      - key: PIP_CACHE_DIR
+        value: /tmp/pip-cache
+      - key: PIP_DISABLE_PIP_VERSION_CHECK
+        value: "1"
       - key: BOT_TOKEN
         sync: false
       - key: ADMIN_ID

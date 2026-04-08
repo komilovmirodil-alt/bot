@@ -17,6 +17,11 @@ Telegram kino/serial boti, Render Worker uchun moslangan.
 3. Reponi ulang, `render.yaml` bo'yicha worker avtomatik yaratiladi.
 4. Environment o'zgaruvchilar:
 ```env
+PYTHON_VERSION=3.11.9
+PIP_ONLY_BINARY=:all:
+PIP_NO_CACHE_DIR=1
+PIP_CACHE_DIR=/tmp/pip-cache
+PIP_DISABLE_PIP_VERSION_CHECK=1
 BOT_TOKEN=YOUR_BOT_TOKEN
 ADMIN_ID=YOUR_TELEGRAM_ID
 CHECK_SUB=true
