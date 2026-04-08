@@ -3,12 +3,14 @@ services:
     name: aninexus-bot
     env: python
     plan: starter
-    buildCommand: pip install -r requirements.txt
+    buildCommand: python -m pip install --upgrade pip setuptools wheel && pip install --only-binary=:all: -r requirements.txt
     startCommand: python bot_python.py
     autoDeploy: true
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
+      - key: PIP_ONLY_BINARY
+        value: ":all:"
       - key: BOT_TOKEN
         sync: false
       - key: ADMIN_ID
