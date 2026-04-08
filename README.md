@@ -26,6 +26,10 @@ DB_STORAGE=/var/data/database.sqlite
 - `Database connected and synced.`
 - `Bot is running (Python)...`
 
+Muammo chiqsa (`pyproject.toml`, `maturin`, `cargo`, `Read-only file system`):
+- Render service Python versiyasi `3.11.9` ekanini tekshiring.
+- `Clear build cache` qilib qayta deploy qiling.
+
 ## Token Yangilash
 1. `@BotFather` -> `/revoke`
 2. `@BotFather` -> `/token`

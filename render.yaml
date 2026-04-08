@@ -7,6 +7,8 @@ services:
     startCommand: python bot_python.py
     autoDeploy: true
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
       - key: BOT_TOKEN
         sync: false
       - key: ADMIN_ID
