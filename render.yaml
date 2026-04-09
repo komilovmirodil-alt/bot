@@ -4,7 +4,7 @@ services:
     env: python
     plan: starter
     buildCommand: python -m pip install --upgrade pip setuptools wheel && python -m pip install --only-binary=:all: -r requirements.txt
-    startCommand: python bot_python.py
+    startCommand: python app.py
     autoDeploy: true
     envVars:
       - key: PYTHON_VERSION

@@ -11,6 +11,31 @@ Telegram kino/serial boti, Render Worker uchun moslangan.
 - User tracking va statistika: `/stats`
 - Kod bo'yicha o'chirish: `/delete <code>`
 
+## Tuzilma
+- `app.py` -> botni ishga tushiradi
+- `loader.py` -> sozlamalar va env
+- `handlers/` -> user/admin handlerlar
+- `keyboards/` -> tugmalar
+- `states/` -> holatlar (hozircha bo'sh)
+- `storage.py` -> SQLite bazasi
+
+## Lokal Ishga Tushirish
+1. Paketlarni o'rnating:
+```bash
+pip install -r requirements.txt
+```
+2. `.env` ni to'ldiring:
+```env
+BOT_TOKEN=YOUR_BOT_TOKEN
+ADMIN_ID=YOUR_TELEGRAM_ID
+CHECK_SUB=true
+DB_STORAGE=database.sqlite
+```
+3. Botni ishga tushiring:
+```bash
+python app.py
+```
+
 ## Render Worker Deploy
 1. Kodni GitHub'ga push qiling.
 2. Render'da `New +` -> `Blueprint` tanlang.
